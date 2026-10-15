@@ -1,0 +1,52 @@
+{% extends "base.html" %}{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h1>🛠️ Admin Dashboard</h1>
+<section class="grid">
+  <div class="card stat"><span class="icon">👥</span><h2>{{ counts.users }}</h2><p>Registered Users</p></div>
+  <div class="card stat"><span class="icon">🚛</span><h2>{{ counts.collectors }}</h2><p>Waste Collectors</p></div>
+  <div class="card stat"><span class="icon">📋</span><h2>{{ counts.complaints }}</h2><p>Total Complaints <span class="muted">({{ counts.pending }} open)</span></p></div>
+  <div class="card stat"><span class="icon">⚖️</span><h2>{{ counts.kg }} kg</h2><p>Waste Collected</p></div>
+</section>
+<h2 class="section-title">All Complaints</h2>
+{% include "_filters.html" %}
+
+{% if complaints %}
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>User</th><th>Type</th><th>Location</th><th>Description</th><th>Date</th><th>Image</th><th>Status / Assign</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in complaints %}
+      <tr>
+        <td><strong>{{ c.id|cid }}</strong></td>
+        <td>{{ c.user_name }}</td>
+        <td>{{ c.waste_type }}</td>
+        <td class="td-truncate" title="{{ c.location }}">{{ c.location }}</td>
+        <td class="td-truncate" title="{{ c.description }}">{{ c.description }}</td>
+        <td style="white-space:nowrap">{{ c.report_date | replace('-', '/') if c.report_date else '—' }}</td>
+        <td>{% if c.image %}<a href="{{ url_for('static', filename='uploads/' ~ c.image) }}" target="_blank" rel="noopener">📷 View</a>{% else %}<span class="muted">—</span>{% endif %}</td>
+        <td>
+          <form method="post" action="{{ url_for('admin_update_complaint', cid=c.id) }}" class="inline-form">
+            <select name="status">{% for s in statuses %}<option {{ 'selected' if c.status==s }}>{{ s }}</option>{% endfor %}</select>
+            <select name="collector_id"><option value="">Unassigned</option>
+              {% for col in collectors %}<option value="{{ col.id }}" {{ 'selected' if c.collector_id==col.id }}>{{ col.name }}</option>{% endfor %}
+            </select>
+            <button class="btn btn-small-btn">Save</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <span class="empty-icon">📭</span>
+  <h3>No complaints found</h3>
+  <p>Try adjusting your search filters above.</p>
+</div>
+{% endif %}
+{% endblock %}

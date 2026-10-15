@@ -1,0 +1,41 @@
+{% extends "base.html" %}{% block title %}Statistics{% endblock %}
+{% block content %}
+<h1>📊 Statistics</h1>
+<p class="muted" style="margin-bottom:28px">Live data on waste collection and complaints.</p>
+
+<section class="grid charts">
+  <div class="card">
+    <h3>🌿 Waste Collected by Category (kg)</h3>
+    <div style="position:relative;height:260px;margin-top:14px;">
+      <canvas id="chartCategory"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📋 Complaints by Waste Type</h3>
+    <div style="position:relative;height:260px;margin-top:14px;">
+      <canvas id="chartComplaints"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>✅ Resolved vs Pending</h3>
+    <div style="position:relative;height:260px;margin-top:14px;">
+      <canvas id="chartStatus"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📈 Monthly Collection (kg)</h3>
+    <div style="position:relative;height:260px;margin-top:14px;">
+      <canvas id="chartMonthly"></canvas>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<!-- Chart.js loaded WITHOUT integrity hash to avoid SRI failures -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

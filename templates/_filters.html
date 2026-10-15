@@ -1,0 +1,10 @@
+<form method="get" class="filter-bar">
+  <input type="text" name="location" placeholder="Search location" value="{{ request.args.get('location','') }}">
+  <select name="waste_type"><option value="">All waste types</option>
+    {% for c in categories %}<option {{ 'selected' if request.args.get('waste_type')==c }}>{{ c }}</option>{% endfor %}</select>
+  <select name="status"><option value="">All statuses</option>
+    {% for s in statuses %}<option {{ 'selected' if request.args.get('status')==s }}>{{ s }}</option>{% endfor %}</select>
+  <input type="date" name="date" value="{{ request.args.get('date','') }}">
+  <button class="btn" type="submit">Filter</button>
+  <a class="btn btn-outline" href="{{ request.path }}">Reset</a>
+</form>

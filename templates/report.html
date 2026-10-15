@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}Report Waste{% endblock %}
+{% block content %}
+<div class="form-card"><h1>🚯 Report Waste / Garbage</h1>
+<form method="post" enctype="multipart/form-data">
+  <label>Waste Type</label><select name="waste_type" required>{% for c in categories %}<option>{{ c }}</option>{% endfor %}</select>
+  <label>Location</label><input name="location" placeholder="e.g. Green Park Gate 2" required>
+  <label>Description</label><textarea name="description" rows="3" required></textarea>
+  <label>Date</label><input type="date" name="date" value="{{ today }}" max="{{ today }}" required>
+  <label>Upload Image of Garbage</label><input type="file" name="image" id="image" accept="image/*">
+  <img id="preview" class="preview" alt="">
+  <button class="btn" type="submit">Submit Complaint</button>
+</form></div>
+{% endblock %}

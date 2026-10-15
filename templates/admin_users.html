@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block title %}Users{% endblock %}
+{% block content %}
+<h1>👥 Registered Users</h1>
+<div class="table-wrap"><table><tr><th>ID</th><th>Name</th><th>Email</th><th>Mobile</th><th>Address</th><th>Joined</th></tr>
+{% for u in users %}<tr><td>{{ u.id }}</td><td>{{ u.name }}</td><td>{{ u.email }}</td><td>{{ u.mobile }}</td><td>{{ u.address }}</td><td>{{ u.created_at }}</td></tr>{% endfor %}</table></div>
+<h2 class="section-title">🚛 Waste Collectors</h2>
+<div class="table-wrap"><table><tr><th>ID</th><th>Name</th><th>Email</th><th>Mobile</th><th>Vehicle</th><th>Area</th></tr>
+{% for c in collectors %}<tr><td>{{ c.id }}</td><td>{{ c.name }}</td><td>{{ c.email }}</td><td>{{ c.mobile }}</td><td>{{ c.vehicle_no }}</td><td>{{ c.area }}</td></tr>{% endfor %}</table></div>
+<h3>Add Collector</h3>
+<form method="post" class="filter-bar">
+  <input name="name" placeholder="Name" required><input type="email" name="email" placeholder="Email" required><input name="mobile" placeholder="Mobile" required>
+  <input type="password" name="password" placeholder="Password" required><input name="vehicle_no" placeholder="Vehicle No." required><input name="area" placeholder="Area" required>
+  <button class="btn">Add</button></form>
+{% endblock %}

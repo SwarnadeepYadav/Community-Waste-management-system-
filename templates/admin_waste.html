@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Waste Records{% endblock %}
+{% block content %}
+<h1>⚖️ Waste Collection Records</h1>
+<div class="table-wrap"><table><tr><th>Date</th><th>Category</th><th>Quantity (kg)</th><th>Area</th><th>Collector</th></tr>
+{% for r in reports %}<tr><td>{{ r.collected_on }}</td><td>{{ r.category }}</td><td>{{ r.quantity_kg }}</td><td>{{ r.area }}</td><td>{{ r.collector_name }}</td></tr>{% endfor %}</table></div>
+<p class="muted">Showing the latest 100 records.</p>
+{% endblock %}

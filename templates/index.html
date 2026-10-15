@@ -1,0 +1,65 @@
+{% extends "base.html" %}{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div>
+    <h1>Community Waste<br><span>Management System</span></h1>
+    <p>Report garbage problems, track complaints, follow collection schedules and learn how to segregate waste — for a cleaner, greener neighbourhood.</p>
+    {% if not session.role %}<a class="btn" href="{{ url_for('register') }}">🚀 Get Started</a> <a class="btn btn-outline" href="{{ url_for('login') }}">Login</a>
+    {% elif session.role == 'user' %}<a class="btn" href="{{ url_for('report') }}">🗑️ Report Waste</a>{% endif %}
+  </div>
+  <svg viewBox="0 0 200 180" class="hero-art" aria-hidden="true">
+    <defs>
+      <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#bbf7d0"/>
+        <stop offset="100%" stop-color="#86efac"/>
+      </radialGradient>
+      <linearGradient id="binGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#22c55e"/>
+        <stop offset="100%" stop-color="#15803d"/>
+      </linearGradient>
+    </defs>
+    <circle cx="100" cy="90" r="82" fill="url(#bgGrad)" opacity=".55"/>
+    <rect x="68" y="60" width="64" height="85" rx="9" fill="url(#binGrad)"/>
+    <rect x="62" y="47" width="76" height="15" rx="6" fill="#4ade80"/>
+    <rect x="90" y="38" width="20" height="10" rx="4" fill="#86efac"/>
+    <path d="M85 80v50M100 80v50M115 80v50" stroke="#bbf7d0" stroke-width="5" stroke-linecap="round"/>
+    <path d="M152 38c22 0 27 22 10 33-16-5-20-22-10-33z" fill="#4ade80"/>
+    <path d="M44 122c-22 0-24 22-8 30 15-5 20-18 8-30z" fill="#86efac"/>
+    <!-- sparkles -->
+    <circle cx="158" cy="70" r="3" fill="#fbbf24" opacity=".8">
+      <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="40" cy="50" r="2.5" fill="#67e8f9" opacity=".7">
+      <animate attributeName="opacity" values="0.7;0.15;0.7" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="170" cy="130" r="2" fill="#f9a8d4" opacity=".6">
+      <animate attributeName="opacity" values="0.6;0.1;0.6" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </svg>
+</section>
+
+<section class="grid">
+  <div class="card stat"><span class="icon">🚛</span><h2>{{ total }} kg</h2><p>Total Waste Collected</p></div>
+  <div class="card stat"><span class="icon">⏳</span><h2>{{ pending }}</h2><p>Pending Complaints</p></div>
+  <div class="card stat"><span class="icon">✅</span><h2>{{ resolved }}</h2><p>Resolved Complaints</p></div>
+  <div class="card stat"><span class="icon">📅</span><h2>{{ upcoming[0].day if upcoming else '-' }}</h2><p>Next Collection{% if upcoming %}: {{ upcoming[0].area }}{% endif %}</p></div>
+</section>
+
+<h2 class="section-title">📅 Upcoming Waste Collection</h2>
+<section class="grid">
+  {% for u in upcoming %}<div class="card">
+    <h3>{{ u.area }} — {{ u.waste_type }}</h3>
+    <p>{{ u.day }} at {{ u.time }}</p>
+    <p class="muted">{{ 'Today' if u.ahead == 0 else ('Tomorrow' if u.ahead == 1 else 'In ' ~ u.ahead ~ ' days') }} • Vehicle {{ u.vehicle_no }}</p>
+  </div>{% endfor %}
+</section>
+
+<h2 class="section-title">Explore</h2>
+<section class="grid">
+  <a class="card link-card" href="{{ url_for('categories') }}"><span class="icon">🗂️</span><h3>Waste Categories</h3><p>Learn how to dispose of each type.</p></a>
+  <a class="card link-card" href="{{ url_for('awareness') }}"><span class="icon">🌍</span><h3>Awareness</h3><p>Reduce, Reuse, Recycle and more.</p></a>
+  <a class="card link-card" href="{{ url_for('statistics') }}"><span class="icon">📊</span><h3>Statistics</h3><p>See charts of waste and complaints.</p></a>
+  <a class="card link-card" href="{{ url_for('schedule') }}"><span class="icon">🚚</span><h3>Collection Schedule</h3><p>Find your area's pick-up day.</p></a>
+</section>
+{% endblock %}

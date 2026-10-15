@@ -1,0 +1,52 @@
+{% extends "base.html" %}{% block title %}My Complaints{% endblock %}
+{% block content %}
+<h1>📋 My Complaints</h1>
+{% include "_filters.html" %}
+
+{% if complaints %}
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Complaint ID</th>
+        <th>Waste Type</th>
+        <th>Location</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in complaints %}
+      <tr>
+        <td><strong>{{ c.id|cid }}</strong></td>
+        <td>{{ c.waste_type }}</td>
+        <td class="td-truncate" title="{{ c.location }}">{{ c.location }}</td>
+        <td style="white-space:nowrap">
+          {{ c.report_date | replace('-', '/') if c.report_date else '—' }}
+        </td>
+        <td>
+          <span class="badge {{ c.status|replace(' ','-')|lower }}">{{ c.status }}</span>
+        </td>
+        <td>
+          {% if c.image %}
+            <a href="{{ url_for('static', filename='uploads/' ~ c.image) }}" target="_blank" rel="noopener">
+              📷 View
+            </a>
+          {% else %}
+            <span class="muted">—</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <span class="empty-icon">📭</span>
+  <h3>No complaints found</h3>
+  <p>Try adjusting your filters, or <a href="{{ url_for('report') }}">report a new waste issue</a>.</p>
+</div>
+{% endif %}
+{% endblock %}

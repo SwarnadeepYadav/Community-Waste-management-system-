@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Waste Categories{% endblock %}
+{% block content %}
+<h1>🗂️ Waste Categories & Proper Disposal</h1>
+<section class="grid">
+{% for c in categories %}<div class="card"><span class="icon">{{ c.icon }}</span><h3>{{ c.name }}</h3>
+  <p><strong>Examples:</strong> {{ c.examples }}</p><p><strong>How to dispose:</strong> {{ c.disposal }}</p></div>{% endfor %}
+</section>
+{% endblock %}

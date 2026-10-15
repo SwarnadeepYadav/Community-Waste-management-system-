@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}Login{% endblock %}
+{% block content %}
+<div class="form-card"><h1>🔐 Login</h1>
+<form method="post">
+  <label>Login as</label>
+  <select name="role"><option value="user">Resident (User)</option><option value="admin">Admin</option><option value="collector">Waste Collector</option></select>
+  <label>Email</label><input type="email" name="email" required>
+  <label>Password</label><input type="password" name="password" required>
+  <button class="btn" type="submit">Login</button>
+</form><p class="muted">New here? <a href="{{ url_for('register') }}">Register</a></p>
+<details class="demo"><summary>Demo accounts</summary>
+  <p>User: user@example.com / user123<br>Admin: admin@waste.com / admin123<br>Collector: ravi@waste.com / collector123</p></details></div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% block title %}My Tasks{% endblock %}
+{% block content %}
+<h1>🚛 My Assigned Complaints</h1>
+{% include "_filters.html" %}
+<div class="table-wrap"><table>
+<tr><th>ID</th><th>Waste Type</th><th>Location</th><th>Description</th><th>Date</th><th>Status</th><th>Update</th></tr>
+{% for c in complaints %}<tr><td>{{ c.id|cid }}</td><td>{{ c.waste_type }}</td>
+  <td><a target="_blank" href="https://www.google.com/maps/search/{{ c.location|urlencode }}">📍 {{ c.location }}</a></td>
+  <td>{{ c.description }}</td><td>{{ c.report_date }}</td>
+  <td><span class="badge {{ c.status|replace(' ','-')|lower }}">{{ c.status }}</span></td>
+  <td>{% if c.status != 'Resolved' %}
+    <form method="post" action="{{ url_for('collector_update', cid=c.id) }}" class="inline-form">
+      <input type="number" name="quantity_kg" step="0.1" min="0" placeholder="kg collected">
+      <button class="btn btn-small-btn" name="status" value="In Progress">Start</button>
+      <button class="btn btn-small-btn" name="status" value="Resolved">Mark Completed</button></form>
+    {% else %}✔ Done{% endif %}</td></tr>
+{% else %}<tr><td colspan="7">No complaints assigned to you.</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

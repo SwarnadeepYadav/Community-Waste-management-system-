@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% block title %}Manage Schedules{% endblock %}
+{% block content %}
+<h1>🗓️ Manage Collection Schedules</h1>
+<form method="post" class="filter-bar">
+  <input name="area" placeholder="Area" required>
+  <select name="waste_type">{% for c in categories %}<option>{{ c }}</option>{% endfor %}</select>
+  <select name="day">{% for d in days %}<option>{{ d }}</option>{% endfor %}</select>
+  <input name="time" placeholder="07:00 AM" required><input name="vehicle_no" placeholder="Vehicle No." required>
+  <button class="btn">Add Schedule</button>
+</form>
+<div class="table-wrap"><table>
+<tr><th>Area</th><th>Waste Type</th><th>Day</th><th>Time</th><th>Vehicle</th><th>Actions</th></tr>
+{% for s in schedules %}{% set f = 'f' ~ s.id %}<tr>
+  <td><form id="{{ f }}" method="post" action="{{ url_for('update_schedule', sid=s.id) }}"></form><input form="{{ f }}" name="area" value="{{ s.area }}"></td>
+  <td><select form="{{ f }}" name="waste_type">{% for c in categories %}<option {{ 'selected' if s.waste_type==c }}>{{ c }}</option>{% endfor %}</select></td>
+  <td><select form="{{ f }}" name="day">{% for d in days %}<option {{ 'selected' if s.day==d }}>{{ d }}</option>{% endfor %}</select></td>
+  <td><input form="{{ f }}" name="time" value="{{ s.time }}"></td><td><input form="{{ f }}" name="vehicle_no" value="{{ s.vehicle_no }}"></td>
+  <td><button form="{{ f }}" class="btn btn-small-btn">Save</button>
+      <button form="{{ f }}" class="btn btn-danger btn-small-btn" formaction="{{ url_for('delete_schedule', sid=s.id) }}" onclick="return confirm('Delete this schedule?')">Delete</button></td>
+</tr>{% endfor %}
+</table></div>
+{% endblock %}
